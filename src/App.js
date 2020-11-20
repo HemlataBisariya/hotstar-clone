@@ -1,30 +1,34 @@
-import React, { Component, Fragment } from "react";
-import {Route , Switch }  from "react-router-dom";
-import Login from "./HotStarComponent/AuthComponent/Login";
-import Register from "./HotStarComponent/AuthComponent/Register";
- 
-import HeaderComponent from "./HotStarComponent/HeaderComponent/Header";
+import React, { Component, Fragment } from 'react';
+import { Route, Switch, Link } from "react-router-dom";
+
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+import Login from './HotStarComponents/AuthComponent/Login';
+import Register from './HotStarComponents/AuthComponent/Register';
+import HeaderComponent from './HotStarComponents/HeaderComponent/Header';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-  render() {
-    return (
-      <Fragment>
-        <header>
-          <HeaderComponent />
-        </header>
-        <main>
-            <Switch>
-                <Route path ="/login" exact component = {Login}/>
-                <Route path ="/register" exact component = {Register}/>
-            </Switch>
-        </main>
-      </Fragment>
-    );
-  }
+    constructor(props) {
+        super(props);
+        this.state = {  }
+    }
+    render() { 
+        return ( 
+            <Fragment>
+                <header>
+                    <HeaderComponent/>
+                </header>
+                <main>
+                  <ToastContainer/>
+                    <Switch>
+                        <Route path="/login" exact component={Login}/>
+                        <Route path="/register" exact component={Register}/>
+                    </Switch>
+                </main>
+            </Fragment>
+         );
+    }
 }
-
+ 
 export default App;

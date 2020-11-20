@@ -1,4 +1,6 @@
 import React, { Component, Fragment } from "react";
+
+import { toast } from "react-toastify";
 import firebase from "../../firebase";
 import { Link } from "react-router-dom";
 import "./Auth-Styles.css";
@@ -25,7 +27,10 @@ class Register extends Component {
 
     //connecting firebase auth provider
     let userData = await firebase.auth().createUserWithEmailAndPassword(email,password);
-    console.log(userData);
+    toast.success("Successfully User Registered")
+    
+    userData.user.sendEmailVerification();
+    toast.success(`A verification email has been sent to ${email} and Please verify your email address`);
 
       this.setState({
         username: "",
@@ -35,6 +40,7 @@ class Register extends Component {
       });
     } catch (err) {
       console.log(err);
+      toast.error(err.message);
     }
   };
 
