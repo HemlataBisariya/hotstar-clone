@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 
 import { toast } from "react-toastify";
+import md5 from "md5";
 import firebase from "../../firebase";
 import { Link } from "react-router-dom";
 import "./Auth-Styles.css";
@@ -27,10 +28,27 @@ class Register extends Component {
 
     //connecting firebase auth provider
     let userData = await firebase.auth().createUserWithEmailAndPassword(email,password);
-    toast.success("Successfully User Registered")
     
     userData.user.sendEmailVerification();
     toast.success(`A verification email has been sent to ${email} and Please verify your email address`);
+
+    //update profile including user photo , phone number ,id wahtever  
+    await userData.user.updateProfile({
+    displayName : username,
+    photoURL : `https://www.gravatar.com/avatar/${md5(userData.user.email)}?d=identicon`,
+    });
+
+    //store user information  in RealTime Database
+    //should have to config real time firebase database
+    //connect firebase realtime database
+
+    await firebase.database().ref().child(userData.user.displayName).set({
+    email : userData.user.email,
+    displayName : userData.user.displayName,
+    photoURL : userData.user.photoURL,
+    uid : userData.user.uid,
+    registrationDate : new Date().toString(), 
+    });
 
       this.setState({
         username: "",
